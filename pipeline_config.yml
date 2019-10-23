@@ -32,6 +32,7 @@ stages:
 
   # This exclude is required for the example project to be successful in the pipeline
   # Remove it when you have added your first test
+  # https://github.com/SAP/cloud-s4-sdk-pipeline/blob/master/configuration.md#s4sdkqualitychecks
   s4SdkQualityChecks:
     jacocoExcludes:
       - '**/OrdersService.class'
@@ -45,11 +46,10 @@ stages:
 #    nonErpDestinations:
 #      - 'myCustomDestination'
 
-#  productionDeployment:
-#    cfTargets:
-#      - org: 'myOrg'
-#        space: 'mySpace'
-#        apiEndpoint: 'https://'
-#        appName: 'myAppName'
-#        manifest: 'manifest.yml'
-#        credentialsId: 'myDeploymentCredentialsId'
+# https://github.com/SAP/cloud-s4-sdk-pipeline/blob/master/configuration.md#productiondeployment
+  productionDeployment:
+    cfTargets:
+      - org: 'ConcileTime'
+        space: 'dev'
+        apiEndpoint: 'https://api.cf.us10.hana.ondemand.com'
+        credentialsId: 'GitHub'
