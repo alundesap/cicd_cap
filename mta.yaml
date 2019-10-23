@@ -1,0 +1,39 @@
+ID: cicd_cap
+_schema-version: "2.1"
+description: Continuous Integration & Deliver Cloud Application Program
+version: 0.0.1
+modules:
+  - name: cicd_cap-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: cicd_cap-db-hdi-container
+  - name: cicd_cap-srv
+    type: nodejs
+    path: srv
+    parameters:
+      memory: 512M
+      disk-quota: 256M
+    provides:
+      - name: srv_api
+        properties:
+          url: ${default-url}
+    requires:
+      - name: cicd_cap-db-hdi-container
+      - name: cicd_cap-uaa
+resources:
+  - name: cicd_cap-db-hdi-container
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: ${service-name}
+  - name: cicd_cap-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: application
+      service: xsuaa
+      config:
+        xsappname: cicd_cap-${space}
+        tenant-mode: dedicated
